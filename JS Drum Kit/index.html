@@ -43,7 +43,7 @@
       <kbd>K</kbd>
       <span class="sound">tom</span>
     </div>
-    <div data-key="76" class="key">a
+    <div data-key="76" class="key">
       <kbd>L</kbd>
       <span class="sound">tink</span>
     </div>
@@ -60,22 +60,32 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
   <script>
-    const handleUI = (key) => {
-      const sq = document.querySelector(`div[data-key='${key}']`)
+    const addTransition = (sq) => {
       sq.classList.add('playing')
-      setTimeout(() => {
-        sq.classList.remove('playing')
-      }, 200)
+    }
+
+    const removeTransition = (e) => {
+      if (e.propertyName !== 'transform') return
+      const sq = e.target
+      sq.classList.remove('playing')
     }
 
     const playSound = (key) => {
       const src = document.querySelector(`audio[data-key='${key}']`)
+      src.currentTime = 0
       src.play()
+    }
+
+    const keys = document.querySelectorAll('.key')
+    const keyArr = Array.from(keys)
+    for (key of keyArr) {
+      key.addEventListener('transitionend', removeTransition)
     }
 
     document.addEventListener('keydown', (e) => {
       const key = e.keyCode
-      handleUI(key)
+      const sq = document.querySelector(`div[data-key='${key}']`)
+      addTransition(sq)
       playSound(key)
     })
 
