@@ -60,26 +60,23 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
   <script>
+    const handleUI = (key) => {
+      const sq = document.querySelector(`div[data-key='${key}']`)
+      sq.classList.add('playing')
+      setTimeout(() => {
+        sq.classList.remove('playing')
+      }, 200)
+    }
+
+    const playSound = (key) => {
+      const src = document.querySelector(`audio[data-key='${key}']`)
+      src.play()
+    }
+
     document.addEventListener('keydown', (e) => {
       const key = e.keyCode
-
-
-      const handleUI = (key) => {
-        const sq = document.querySelector(`div[data-key='${key}']`)
-        sq.classList.add('playing')
-        setTimeout(() => {
-          sq.classList.remove('playing')
-        }, 200)
-      }
-
-      const playSound = (key) => {
-        const src = document.querySelector(`audio[data-key='${key}']`)
-        src.play()
-      }
-
       handleUI(key)
       playSound(key)
-
     })
 
 
